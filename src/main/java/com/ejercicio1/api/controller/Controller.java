@@ -12,15 +12,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api-prof/v1")
+@RequestMapping(value = "/api-profesores/v1")
 public class Controller {
+
 
     @Autowired
     private ProfesorServiceApi profesorServiceApi;
 
 
 
-    @GetMapping(value = "/profesores")
+
+    @GetMapping
     @ApiOperation("Obtener la información de todos los profesores.")
     public List<Profesor> obtenerTodos(){
         return profesorServiceApi.getAll();
@@ -28,7 +30,8 @@ public class Controller {
 
 
 
-    @GetMapping(value = "/obtener_prof/{id}")
+
+    @GetMapping(value = "/{id}")
     @ApiOperation("Obtener la información de un profesor dado su id.")
     public ResponseEntity<Profesor> obtenerUno(
             @ApiParam(value = "El id del profesor a buscar", required = true, example = "1")
@@ -47,8 +50,7 @@ public class Controller {
 
 
 
-
-    @PatchMapping(value = "/editar_prof")
+    @PatchMapping
     @ApiOperation("Editar la información de un profesor, el id se envia en el json junto a el resto de datos.")
     public ResponseEntity<Profesor> editar(@RequestBody Profesor profesor){
         //System.out.println(profesor.getId());
@@ -66,7 +68,7 @@ public class Controller {
 
 
 
-    @PostMapping(value = "/profesores")
+    @PostMapping
     @ApiOperation("Guarda la información de un nuevo profesor en la DB.")
     public ResponseEntity<Profesor> guardarPorfesor(@RequestBody Profesor profesor){
         Profesor obj = profesorServiceApi.save(profesor);
@@ -76,7 +78,7 @@ public class Controller {
 
 
 
-    @DeleteMapping(value = "/eliminar_prof/{id}")
+    @DeleteMapping(value = "/{id}")
     @ApiOperation("Eliminar la información de un profesor dado su id.")
     public ResponseEntity<Profesor> eliminar(
             @ApiParam(value = "El id del profesor a eliminar", required = true, example = "1")
