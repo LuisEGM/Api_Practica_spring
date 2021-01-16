@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/api-profesores/v1")
@@ -20,8 +21,6 @@ public class Controller {
     private ProfesorServiceApi profesorServiceApi;
 
 
-
-
     @GetMapping
     @ApiOperation("Obtener la información de todos los profesores.")
     public List<Profesor> obtenerTodos(){
@@ -29,13 +28,11 @@ public class Controller {
     }
 
 
-
-
     @GetMapping(value = "/{id}")
     @ApiOperation("Obtener la información de un profesor dado su id.")
     public ResponseEntity<Profesor> obtenerUno(
             @ApiParam(value = "El id del profesor a buscar", required = true, example = "1")
-            @PathVariable Integer id
+            @PathVariable String id
     ){
         Profesor obj = profesorServiceApi.get(id);
         if(obj != null){
@@ -46,8 +43,6 @@ public class Controller {
         }
 
     }
-
-
 
 
     @PatchMapping
@@ -66,23 +61,22 @@ public class Controller {
     }
 
 
-
-
     @PostMapping
     @ApiOperation("Guarda la información de un nuevo profesor en la DB.")
     public ResponseEntity<Profesor> guardarPorfesor(@RequestBody Profesor profesor){
+        String id = UUID.randomUUID().toString();
+        System.out.println("Num caracteres id => " + id.length());
+        profesor.setId(id);
         Profesor obj = profesorServiceApi.save(profesor);
         return new ResponseEntity<>(obj, HttpStatus.CREATED);
     }
-
-
 
 
     @DeleteMapping(value = "/{id}")
     @ApiOperation("Eliminar la información de un profesor dado su id.")
     public ResponseEntity<Profesor> eliminar(
             @ApiParam(value = "El id del profesor a eliminar", required = true, example = "1")
-            @PathVariable Integer id
+            @PathVariable String id
     ){
         Profesor obj = profesorServiceApi.get(id);
         if(obj != null){

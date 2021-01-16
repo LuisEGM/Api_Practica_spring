@@ -8,9 +8,9 @@ import java.util.Date;
 public class Profesor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_profesor")
-    private Integer id;
+    private String id;
 
     private String nombres;
 
@@ -23,11 +23,11 @@ public class Profesor {
     @Column(name = "fecha_nacimiento")
     private Date fechaNacimiento;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
