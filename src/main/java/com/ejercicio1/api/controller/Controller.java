@@ -1,5 +1,7 @@
 package com.ejercicio1.api.controller;
 
+import com.ejercicio1.api.ReqAndRes.Profesor.RespuestaCrearProfesor;
+import com.ejercicio1.api.ReqAndRes.Profesor.RespuestaObtenerProfesor;
 import com.ejercicio1.api.model.Profesor;
 import com.ejercicio1.api.services.ProfesorServiceApi;
 import io.swagger.annotations.ApiOperation;
@@ -30,16 +32,25 @@ public class Controller {
 
     @GetMapping(value = "/{id}")
     @ApiOperation("Obtener la información de un profesor dado su id.")
-    public ResponseEntity<Profesor> obtenerUno(
+    public ResponseEntity<RespuestaObtenerProfesor> obtenerUno(
             @ApiParam(value = "El id del profesor a buscar", required = true, example = "1")
             @PathVariable String id
     ){
         Profesor obj = profesorServiceApi.get(id);
+
+        //Seteo la respuesta
+        RespuestaObtenerProfesor res = new RespuestaObtenerProfesor();
+
         if(obj != null){
-            return new ResponseEntity<>(obj,HttpStatus.OK);
+            res.setNombres(obj.getNombres());
+            res.setEmail(obj.getEmail());
+            res.setTelefono(obj.getTelefono());
+            res.setEspecialidad(obj.getEspecialidad());
+            res.setFehcaNacimiento(obj.getFechaNacimiento());
+            return new ResponseEntity<>(res,HttpStatus.OK);
         }
         else{
-            return new ResponseEntity<>(obj,HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(res,HttpStatus.NOT_FOUND);
         }
 
     }
@@ -63,12 +74,22 @@ public class Controller {
 
     @PostMapping
     @ApiOperation("Guarda la información de un nuevo profesor en la DB.")
-    public ResponseEntity<Profesor> guardarPorfesor(@RequestBody Profesor profesor){
+    public ResponseEntity<RespuestaCrearProfesor> guardarPorfesor(@RequestBody Profesor profesor){
+
+        //Estableciendo id
         String id = UUID.randomUUID().toString();
         System.out.println("Num caracteres id => " + id.length());
         profesor.setId(id);
+
+        //guardanoo en la db
         Profesor obj = profesorServiceApi.save(profesor);
-        return new ResponseEntity<>(obj, HttpStatus.CREATED);
+
+        //Seteando respuesta
+        RespuestaCrearProfesor res = new RespuestaCrearProfesor();
+        res.setId(obj.getId());
+        res.setNombres((obj.getNombres()));
+
+        return new ResponseEntity<>(res,HttpStatus.CREATED);
     }
 
 
