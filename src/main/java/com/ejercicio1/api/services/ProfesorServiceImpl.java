@@ -17,4 +17,10 @@ public class ProfesorServiceImpl extends GenericServiceImpl<Profesor,String> imp
     public CrudRepository<Profesor, String> getDao() {
         return profesorDaoApi;
     }
+
+    @Override
+    public Profesor findByName(String nombre) {
+        return profesorDaoApi.ObtenerProfesorPorNombre(nombre);
+    }
+
 }

@@ -56,6 +56,19 @@ public class Controller {
     }
 
 
+    @GetMapping(value = "/findByName/{nombre}")
+    @ApiOperation("Obtener la información de un profesor dado su nombre")
+    public ResponseEntity<Profesor> obtenerProfesorPorNombre(@PathVariable String nombre){
+        Profesor obj = profesorServiceApi.findByName(nombre);
+        if(obj != null){
+            return new ResponseEntity<>(obj,HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
+
     @PatchMapping
     @ApiOperation("Editar la información de un profesor, el id se envia en el json junto a el resto de datos.")
     public ResponseEntity<Profesor> editar(@RequestBody Profesor profesor){
