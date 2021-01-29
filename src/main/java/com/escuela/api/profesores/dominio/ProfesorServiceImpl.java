@@ -1,8 +1,6 @@
-package com.ejercicio1.api.services;
+package com.escuela.api.profesores.dominio;
 
-import com.ejercicio1.api.DaoApi.ProfesorDaoApi;
-import com.ejercicio1.api.commons.GenericServiceImpl;
-import com.ejercicio1.api.model.Profesor;
+import com.escuela.api.commons.GenericServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.ejercicio1.api.ReqAndRes.Profesor;
+package com.escuela.api.profesores.aplicacion;
 
 public class RespuestaCrearProfesor {
 

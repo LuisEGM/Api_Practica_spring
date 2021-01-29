@@ -1,9 +1,9 @@
-package com.ejercicio1.api.controller;
+package com.escuela.api.profesores.infraestructura;
 
-import com.ejercicio1.api.ReqAndRes.Profesor.RespuestaCrearProfesor;
-import com.ejercicio1.api.ReqAndRes.Profesor.RespuestaObtenerProfesor;
-import com.ejercicio1.api.model.Profesor;
-import com.ejercicio1.api.services.ProfesorServiceApi;
+import com.escuela.api.profesores.aplicacion.RespuestaCrearProfesor;
+import com.escuela.api.profesores.aplicacion.RespuestaObtenerProfesor;
+import com.escuela.api.profesores.dominio.Profesor;
+import com.escuela.api.profesores.dominio.ProfesorServiceApi;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/api-profesores/v1")
-public class Controller {
+public class ProfesorController {
 
 
     @Autowired

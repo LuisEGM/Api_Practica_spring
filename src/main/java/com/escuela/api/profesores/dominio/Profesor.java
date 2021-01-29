@@ -1,4 +1,4 @@
-package com.ejercicio1.api.model;
+package com.escuela.api.profesores.dominio;
 
 import javax.persistence.*;
 import java.util.Date;

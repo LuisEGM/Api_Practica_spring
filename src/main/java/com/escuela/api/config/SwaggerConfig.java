@@ -1,4 +1,4 @@
-package com.ejercicio1.api.config;
+package com.escuela.api.config;
 
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -12,7 +12,7 @@ public class SwaggerConfig {
 
     public Docket documentation(){
         return new Docket(DocumentationType.SWAGGER_2).select()
-                .apis(RequestHandlerSelectors.basePackage("com.ejercicio1.api.controller.Controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.escuela.api.profesores.infraestructura.ProfesorController"))
                 .build();
     }
 

@@ -1,13 +1,13 @@
-package com.ejercicio1.api;
+package com.escuela.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Ejercicio1Application {
+public class EscuelaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Ejercicio1Application.class, args);
+		SpringApplication.run(EscuelaApplication.class, args);
 	}
 
 }
