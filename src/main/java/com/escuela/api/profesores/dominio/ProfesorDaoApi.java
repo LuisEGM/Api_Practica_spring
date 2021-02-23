@@ -1,6 +1,5 @@
 package com.escuela.api.profesores.dominio;
 
-import com.escuela.api.profesores.dominio.Profesor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
