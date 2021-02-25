@@ -1,8 +1,11 @@
 package com.escuela.api.controller;
 
+import com.escuela.api.controller.RequestAndResponse.actualizar.RequestActualizarProfesor;
+import com.escuela.api.controller.RequestAndResponse.actualizar.ResponseActualizarProfesor;
 import com.escuela.api.controller.RequestAndResponse.crear.RequestCrearProfesor;
 import com.escuela.api.controller.RequestAndResponse.crear.ResponseCrearProfesor;
 import com.escuela.api.controller.RequestAndResponse.obtener.ResponseObtenerProfesor;
+import com.escuela.api.controller.RequestAndResponse.obtener.ResponseObtenerTodos;
 import com.escuela.api.model.Profesor;
 import com.escuela.api.services.ProfesorServiceApi;
 import io.swagger.annotations.ApiOperation;
@@ -12,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,8 +30,15 @@ public class Controller {
 
     @GetMapping
     @ApiOperation("Obtener la información de todos los profesores.")
-    public List<Profesor> obtenerTodos(){
-        return profesorServiceApi.getAll();
+    public List<ResponseObtenerTodos> obtenerTodos(){
+        List<Profesor> profesores = profesorServiceApi.getAll();
+        List<ResponseObtenerTodos> response = new ArrayList<ResponseObtenerTodos>();
+
+        for(Profesor prof: profesores){
+            ResponseObtenerTodos profesor = new ResponseObtenerTodos(prof.getId(),prof.getNombres(),prof.getEmail(),prof.getTelefono(),prof.getEspecialidad(),prof.getFechaNacimiento());
+            response.add(profesor);
+        }
+        return response;
     }
 
 
@@ -66,18 +77,30 @@ public class Controller {
     }
 
 
-    @PatchMapping
+    @PatchMapping(value = "/{id_profesor}")
     @ApiOperation("Editar la información de un profesor, el id se envia en el json junto a el resto de datos.")
-    public ResponseEntity<Profesor> editar(@RequestBody Profesor profesor){
-        //System.out.println(profesor.getId());
-        Profesor obj = profesorServiceApi.get(profesor.getId());
+    public ResponseEntity<ResponseActualizarProfesor> editar(@RequestBody RequestActualizarProfesor profesorParam, @PathVariable String id_profesor){
+
+        Profesor obj = profesorServiceApi.get(id_profesor);
         if(obj != null){
-            //System.out.println("Lo encuentra");
-            Profesor obj2 = profesorServiceApi.save(profesor);
-            return new ResponseEntity<>(obj2,HttpStatus.OK);
+
+            Profesor prof = new Profesor();
+            prof.setId(id_profesor);
+
+            if(profesorParam.mapearPropiedades(prof)){
+                Profesor obj2 = profesorServiceApi.save(prof);
+                ResponseActualizarProfesor res = new ResponseActualizarProfesor();
+                res.mapearPropiedades(obj2);
+
+                return new ResponseEntity<>(res,HttpStatus.OK);
+            }
+            else{
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+
         }
         else{
-            return new ResponseEntity<>(obj,HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
     }
 
@@ -112,7 +135,7 @@ public class Controller {
     @DeleteMapping(value = "/{id}")
     @ApiOperation("Eliminar la información de un profesor dado su id.")
     public ResponseEntity<Profesor> eliminar(
-            @ApiParam(value = "El id del profesor a eliminar", required = true, example = "1")
+            @ApiParam(value = "El id del profesor a eliminar", required = true)
             @PathVariable String id
     ){
         Profesor obj = profesorServiceApi.get(id);
