@@ -1,14 +1,35 @@
-package com.ejercicio1.api.ReqAndRes.Profesor;
+package com.escuela.api.model;
 
+import javax.persistence.*;
 import java.util.Date;
 
-public class RespuestaObtenerProfesor {
+@Entity
+@Table(name = "Profesores")
+public class Profesor {
+
+    @Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_profesor")
+    private String id;
 
     private String nombres;
+
     private String email;
+
     private String telefono;
+
     private String especialidad;
-    private Date fehcaNacimiento;
+
+    @Column(name = "fecha_nacimiento")
+    private Date fechaNacimiento;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getNombres() {
         return nombres;
@@ -42,11 +63,11 @@ public class RespuestaObtenerProfesor {
         this.especialidad = especialidad;
     }
 
-    public Date getFehcaNacimiento() {
-        return fehcaNacimiento;
+    public Date getFechaNacimiento() {
+        return fechaNacimiento;
     }
 
-    public void setFehcaNacimiento(Date fehcaNacimiento) {
-        this.fehcaNacimiento = fehcaNacimiento;
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 }

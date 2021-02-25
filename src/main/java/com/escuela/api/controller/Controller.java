@@ -1,9 +1,10 @@
-package com.ejercicio1.api.controller;
+package com.escuela.api.controller;
 
-import com.ejercicio1.api.ReqAndRes.Profesor.RespuestaCrearProfesor;
-import com.ejercicio1.api.ReqAndRes.Profesor.RespuestaObtenerProfesor;
-import com.ejercicio1.api.model.Profesor;
-import com.ejercicio1.api.services.ProfesorServiceApi;
+import com.escuela.api.controller.RequestAndResponse.crear.RequestCrearProfesor;
+import com.escuela.api.controller.RequestAndResponse.crear.ResponseCrearProfesor;
+import com.escuela.api.controller.RequestAndResponse.obtener.ResponseObtenerProfesor;
+import com.escuela.api.model.Profesor;
+import com.escuela.api.services.ProfesorServiceApi;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,21 +33,17 @@ public class Controller {
 
     @GetMapping(value = "/{id}")
     @ApiOperation("Obtener la información de un profesor dado su id.")
-    public ResponseEntity<RespuestaObtenerProfesor> obtenerUno(
-            @ApiParam(value = "El id del profesor a buscar", required = true, example = "1")
+    public ResponseEntity<ResponseObtenerProfesor> obtenerUno(
+            @ApiParam(value = "El id del profesor a buscar", required = true)
             @PathVariable String id
     ){
         Profesor obj = profesorServiceApi.get(id);
 
         //Seteo la respuesta
-        RespuestaObtenerProfesor res = new RespuestaObtenerProfesor();
+        ResponseObtenerProfesor res = new ResponseObtenerProfesor();
 
         if(obj != null){
-            res.setNombres(obj.getNombres());
-            res.setEmail(obj.getEmail());
-            res.setTelefono(obj.getTelefono());
-            res.setEspecialidad(obj.getEspecialidad());
-            res.setFehcaNacimiento(obj.getFechaNacimiento());
+            res.mapearPropiedades(obj);
             return new ResponseEntity<>(res,HttpStatus.OK);
         }
         else{
@@ -87,22 +84,28 @@ public class Controller {
 
     @PostMapping
     @ApiOperation("Guarda la información de un nuevo profesor en la DB.")
-    public ResponseEntity<RespuestaCrearProfesor> guardarPorfesor(@RequestBody Profesor profesor){
+    public ResponseEntity<ResponseCrearProfesor> guardarPorfesor(@RequestBody RequestCrearProfesor profesorParam){
 
-        //Estableciendo id
-        String id = UUID.randomUUID().toString();
-        System.out.println("Num caracteres id => " + id.length());
-        profesor.setId(id);
+        //Creando el objeto profesor a guardar
+        Profesor profesor = new Profesor();
 
-        //guardanoo en la db
-        Profesor obj = profesorServiceApi.save(profesor);
+        //Seteando los valores
+        if(profesorParam.mapearPropiedades(profesor)){
+            //guardanoo en la db
+            Profesor obj = profesorServiceApi.save(profesor);
 
-        //Seteando respuesta
-        RespuestaCrearProfesor res = new RespuestaCrearProfesor();
-        res.setId(obj.getId());
-        res.setNombres((obj.getNombres()));
+            //Seteando respuesta
+            ResponseCrearProfesor res = new ResponseCrearProfesor();
+            res.setId(obj.getId());
+            res.setNombres((obj.getNombres()));
 
-        return new ResponseEntity<>(res,HttpStatus.CREATED);
+            return new ResponseEntity<>(res,HttpStatus.CREATED);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+
     }
 
 

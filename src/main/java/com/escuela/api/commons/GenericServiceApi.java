@@ -1,4 +1,4 @@
-package com.ejercicio1.api.commons;
+package com.escuela.api.commons;
 
 import java.io.Serializable;
 import java.util.List;

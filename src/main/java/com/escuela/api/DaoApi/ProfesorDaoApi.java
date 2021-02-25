@@ -1,6 +1,6 @@
-package com.ejercicio1.api.DaoApi;
+package com.escuela.api.DaoApi;
 
-import com.ejercicio1.api.model.Profesor;
+import com.escuela.api.model.Profesor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

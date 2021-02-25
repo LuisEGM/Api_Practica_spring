@@ -1,4 +1,4 @@
-package com.ejercicio1.api.config;
+package com.escuela.api.config;
 
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.RequestHandlerSelectors;
