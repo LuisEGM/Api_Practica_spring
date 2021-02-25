@@ -6,6 +6,8 @@ import com.escuela.api.controller.RequestAndResponse.crear.RequestCrearProfesor;
 import com.escuela.api.controller.RequestAndResponse.crear.ResponseCrearProfesor;
 import com.escuela.api.controller.RequestAndResponse.obtener.ResponseObtenerProfesor;
 import com.escuela.api.controller.RequestAndResponse.obtener.ResponseObtenerTodos;
+import com.escuela.api.controller.exceptions.BadRequestException;
+import com.escuela.api.controller.exceptions.NotFoundException;
 import com.escuela.api.model.Profesor;
 import com.escuela.api.services.ProfesorServiceApi;
 import io.swagger.annotations.ApiOperation;
@@ -58,7 +60,8 @@ public class Controller {
             return new ResponseEntity<>(res,HttpStatus.OK);
         }
         else{
-            return new ResponseEntity<>(res,HttpStatus.NOT_FOUND);
+            //return new ResponseEntity<>(res,HttpStatus.NOT_FOUND);
+            throw new NotFoundException("No se encontro un profesor con el id: "+id);
         }
 
     }
@@ -72,7 +75,8 @@ public class Controller {
             return new ResponseEntity<>(obj,HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            //return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            throw new NotFoundException("No se encontro un profesor con el nombre: "+nombre);
         }
     }
 
@@ -95,12 +99,14 @@ public class Controller {
                 return new ResponseEntity<>(res,HttpStatus.OK);
             }
             else{
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                //return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                throw new BadRequestException("Ocurrio un problema con los parametros recibidos");
             }
 
         }
         else{
-            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+            //return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+            throw new NotFoundException("No se encontro un profesor con el id: "+id_profesor);
         }
     }
 
@@ -125,7 +131,8 @@ public class Controller {
             return new ResponseEntity<>(res,HttpStatus.CREATED);
         }
         else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            //return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            throw new BadRequestException("Ocurrio un problema con los parametros recibidos");
         }
 
 
@@ -144,7 +151,8 @@ public class Controller {
             return new ResponseEntity<>(obj,HttpStatus.OK);
         }
         else{
-            return new ResponseEntity<>(obj,HttpStatus.NOT_FOUND);
+            throw new NotFoundException("No se encontro un profesor con el id: "+id);
+            //return new ResponseEntity<>(obj,HttpStatus.NOT_FOUND);
         }
 
     }
